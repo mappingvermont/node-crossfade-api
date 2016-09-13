@@ -32,6 +32,8 @@ var router = express.Router();
 router.use(function(req, res, next) {
 	// do logging
 	console.log('Something is happening.');
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
 });
 
@@ -39,9 +41,16 @@ router.use(function(req, res, next) {
 // ----------------------------------------------------
 router.route('/playlists')
 
+//         console.log('playlists route');
+//        .options(function(req, res) {
+//            res.send(200);
+
+//        })
+
+
 	// create a playlist (accessed at POST http://localhost:8080/playlists)
 	.post(function(req, res) {
-		
+		console.log('starting post');
 		var playlist = new Playlist();		// create a new instance of the Playlist model
 		playlist.playlist_json = req.body;  // set the playlist's name (comes from the request)
 
@@ -53,7 +62,6 @@ router.route('/playlists')
 
 			res.json({ 'collection_id': hashids.encode(playlist._id) });
 		});
-		
 	})
 
 	// get all the playlists (accessed at GET http://localhost:8080/playlists)
